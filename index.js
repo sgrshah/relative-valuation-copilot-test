@@ -9,7 +9,7 @@ const openai = new OpenAI({
 const assistant = await openai.beta.assistants.create({
   name: "Relative Valuation Analyst",
   instructions:
-    "You are a financial analyst conducting relative valuations. Read information about the target company and comparable companies and choose reasonable valuation multiples. Please provide justification.",
+    "You are a financial analyst helping the user conduct a valuation of a target company.",
   model: "gpt-4-1106-preview",
   tools: [
     {
@@ -43,6 +43,7 @@ function getComparableCompanyData(tickerSymbols) {
       revenue_growth: "-1%",
       ebitda_margin: "36%",
       revenue_multiple: "6.55x",
+      ebitda_multiple: "15.5x",
     },
     PINS: {
       ticker: "PINS",
@@ -50,6 +51,7 @@ function getComparableCompanyData(tickerSymbols) {
       revenue_growth: "+9%",
       ebitda_margin: "-1%",
       revenue_multiple: "6.50x",
+      ebitda_multiple: "-94.6x",
     },
     SNAP: {
       ticker: "SNAP",
@@ -57,6 +59,7 @@ function getComparableCompanyData(tickerSymbols) {
       revenue_growth: "+12%",
       ebitda_margin: "-20%",
       revenue_multiple: "3.42x",
+      ebitda_multiple: "-24.1x",
     },
   };
 
@@ -131,7 +134,7 @@ async function startThread(userInstructions) {
   const run = await openai.beta.threads.runs.create(thread.id, {
     assistant_id: assistant.id,
     instructions:
-      "Please write as if you are a financial analyst. Justify your choice of a relative metric (such as EBITDA or Revenue) and valuation multiple for the target company. Make sure to explicitly choose a multiple range for your final answer.",
+      "You are a financial analyst conducting a comparable company valuation. In the first paragraph of your response you should choose a valuation metric (revenue, ebitda, etc) and justify its choice. Keep this first paragraph to 2 sentences. In the second paragraph of your response you compare the target's financial metrics with the comparable companies. Limit this analysis to three sentences. And, the third paragraph of your response you should choose a range of multiples to apply to the target given the analysis of the comparable companies and then calculate an implied enterprise value. This last paragraph should be 3 sentences max.",
   });
 
   return { thread, run };

@@ -23,3 +23,9 @@ Provide user input:
 > Tell me about what you're valuing?
 
 > I want to value a private company called Tiktok. Tiktok has $85 billion in revenue, +38% revenue growth, and $25 billion in EBITDA. The company is in the social media industry. The comparable companies that I want to use for the relative valuation are META, PINS, and SNAP. The current market sentiment values profitability over growth.
+
+Next steps:
+
+- Simple chat interface with typical task prompt suggestions
+- Include proprietary document search (e.g. Azure OpenAI document search)
+- Use fine tuning to embed corporate style guide
